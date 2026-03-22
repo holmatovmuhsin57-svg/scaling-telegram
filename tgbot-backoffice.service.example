@@ -1,0 +1,30 @@
+[Unit]
+Description=Telegram Backoffice Worker
+After=network-online.target tgbot-fast.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tgbot
+Group=tgbot
+WorkingDirectory=/opt/tgbot
+ExecStart=/opt/tgbot/.venv/bin/python /opt/tgbot/backoffice.py
+Restart=always
+RestartSec=1
+TimeoutStopSec=20
+KillSignal=SIGINT
+Nice=-3
+IOSchedulingClass=best-effort
+IOSchedulingPriority=2
+CPUWeight=700
+TasksMax=infinity
+LimitNOFILE=65535
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

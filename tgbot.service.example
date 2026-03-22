@@ -1,0 +1,38 @@
+[Unit]
+Description=Telegram Turbo Responder Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tgbot
+Group=tgbot
+WorkingDirectory=/opt/tgbot
+ExecStart=/opt/tgbot/.venv/bin/python /opt/tgbot/bot.py
+
+# Reliability
+Restart=always
+RestartSec=1
+TimeoutStopSec=20
+KillSignal=SIGINT
+
+# Latency/stability tuning
+Nice=-5
+IOSchedulingClass=best-effort
+IOSchedulingPriority=0
+CPUWeight=1000
+TasksMax=infinity
+LimitNOFILE=65535
+
+# Security hardening (safe defaults)
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+# Logs
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

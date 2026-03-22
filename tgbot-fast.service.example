@@ -1,0 +1,30 @@
+[Unit]
+Description=Telegram Fast Responder
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tgbot
+Group=tgbot
+WorkingDirectory=/opt/tgbot
+ExecStart=/opt/tgbot/.venv/bin/python /opt/tgbot/fast_responder.py
+Restart=always
+RestartSec=1
+TimeoutStopSec=20
+KillSignal=SIGINT
+Nice=-5
+IOSchedulingClass=best-effort
+IOSchedulingPriority=0
+CPUWeight=1000
+TasksMax=infinity
+LimitNOFILE=65535
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
